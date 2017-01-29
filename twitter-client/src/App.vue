@@ -6,6 +6,4 @@
 
 </script>
 
-<style>
-
-</style>
+<style src="./assets/vtwitter.css"></style>
