@@ -4,8 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import Router from './routes.js';
 import VueResource from 'vue-resource';
+import Auth from './plugins/Auth.js';
 
 Vue.use(VueResource);
+Vue.use(Auth);
 
 //configure alertify defaults
 alertify.defaults.notifier.position = "top-right";
@@ -21,6 +23,20 @@ Vue.http.interceptors.push(function(request, next) {
       });
     }
   });
+});
+
+//configure route guards
+Router.beforeEach(function (to, from, next) {
+  //prevent access to requireGuest routes
+  if (to.matched.some(function(record) { return record.meta.requireGuest })
+    && Vue.auth.loggedIn())
+  {
+    next({
+      path: '/newsfeed'
+    });
+  } else {
+    next(); // always call next()
+  }
 });
 
 /* eslint-disable no-new */
