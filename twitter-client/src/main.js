@@ -20,7 +20,7 @@ Vue.http.interceptors.push(function(request, next) {
     if (token)
       request.headers.set('Authorization', 'Bearer ' + token);
   }
-  
+
   next(function(response) {
     if (response.status == 422) {
       response.body.errors.forEach(function (e) {
@@ -33,15 +33,21 @@ Vue.http.interceptors.push(function(request, next) {
 //configure route guards
 Router.beforeEach(function (to, from, next) {
   //prevent access to requireGuest routes
-  if (to.matched.some(function(record) { return record.meta.requireGuest })
-    && Vue.auth.loggedIn())
+  if (to.matched.some(function(record) { return record.meta.requireGuest }) && Vue.auth.loggedIn())
   {
     next({
       path: '/newsfeed'
     });
+  } else if (to.matched.some(function(record) { return record.meta.requireAuth }) && !Vue.auth.loggedIn())
+  {
+    next({
+      path: '/auth/login',
+      query: { redirect: to.fullPath }
+    });
   } else {
     next(); // always call next()
   }
+
 });
 
 /* eslint-disable no-new */

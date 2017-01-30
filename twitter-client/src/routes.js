@@ -19,7 +19,8 @@ var router = new VueRouter({
           children: [
             {
               path: 'newsfeed',
-              component: Newsfeed
+              component: Newsfeed,
+              meta: { requireAuth: true }
             }
           ]
         },
