@@ -3,7 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import Router from './routes.js';
+import VueResource from 'vue-resource';
 
+Vue.use(VueResource);
+
+//configure alertify defaults
+alertify.defaults.notifier.position = "top-right";
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
