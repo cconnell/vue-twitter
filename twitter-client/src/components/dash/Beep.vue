@@ -24,8 +24,8 @@
           {{beep.likes}} like{{beep.likes != 1 ? 's' : ''}}
       </button>
       <strong class="pull-right">
-        <i class="fa fa-calendar"></i> {{ beep.created_at }}
-        <i class="fa fa-clock-o"></i> {{ beep.created_at }}
+        <i class="fa fa-calendar"></i> {{ beepDate(beep.created_at) }}
+        <i class="fa fa-clock-o"></i> {{ beepTime(beep.created_at) }}
       </strong>
     </div>
   </div>
@@ -34,12 +34,19 @@
 
 
 <script>
+  import moment from 'moment';
 
   export default {
     name: 'beep',
     props: {beep:{}},
     methods: {
       likeBeep: function () {
+      },
+      beepDate: function (timestamp) {
+        return moment(timestamp*1000).format("DD-MM-YYYY");
+      },
+      beepTime: function (timestamp) {
+        return moment(timestamp*1000).format("HH:mm");
       }
     }
   }
