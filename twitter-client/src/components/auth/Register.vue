@@ -31,18 +31,11 @@
     },
     methods: {
       register: function() {
-        this.$http.post("http://localhost:9090/users", this.user)
+        this.$http.post("/users", this.user)
         .then(function (res) {
           alertify.success("You're uccessfuly registered. You can login with your email and password.");
           this.$router.push("/auth/login");
-        }) 
-        .catch(function (res) {
-          if(res.status == 422) {
-            res.body.errors.forEach(function (e) {
-              alertify.error(e);
-            });
-          }
-        })         
+        })       
       }
     }
   }
