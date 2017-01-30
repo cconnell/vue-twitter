@@ -5,8 +5,8 @@ var AuthPlugin = {
   },
 
   destroyToken: function () {
-    localStorage.removeItem('authToken', token);
-    localStorage.removeItem('authTokenExpiration', expiration);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authTokenExpiration');
   },
 
   getToken: function () {

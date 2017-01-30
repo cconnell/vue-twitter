@@ -1,6 +1,6 @@
 <template>
   <div id="sidebar" class="text-center">
-    <h4 class="text-center">Username</h4>
+    <h4 class="text-center"> @{{ user.username }}</h4>
     <hr>
     <div class="row">
       <div class="col-sm-6">
@@ -11,10 +11,10 @@
       </div>
     </div>
 
-    <div class="tweetNowWrap m-t-20 m-b-20">
-      <textarea class="form-control" rows="10" placeholder="Write your tweet here" maxlength="320"></textarea>
-      <p class="text-muted">320 characters remaining</p>
-      <p class="text-center no-margin"><button class="btn btn-primary">Tweet Now!</button></p>
+    <div class="beepNowWrap m-t-20 m-b-20">
+      <textarea class="form-control" rows="10" placeholder="Write your beep here" v-model="newBeep" maxlength="320"></textarea>
+      <p class="text-muted">{{ 320 - newBeep.length }} character{{ 320 - newBeep.length == 1 ? '' : 's'}} remaining</p>
+      <p class="text-center no-margin"><button class="btn btn-primary">Beep Now!</button></p>
     </div>
 
     <div class="row">
@@ -25,7 +25,7 @@
       </div>
       <div class="col-sm-6">
         <p class="text-center no-margin">
-          <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+          <a href="#" @click.prevent="logout"><i class="fa fa-power-off"></i> Logout</a>
         </p>
       </div>
     </div>
@@ -35,7 +35,29 @@
 
 <script>
   export default {
-    name: 'sidebar'
+    name: 'sidebar',
+    created: function () {
+      this.getUser();
+    },
+    data: function () {
+      return {
+        user: {},
+        newBeep: "",
+      }
+    },
+    methods: {
+      logout: function () {
+        this.$auth.destroyToken();
+        this.user = {};
+        this.$router.push('/auth/login');
+      },
+      getUser:  function () {
+        this.$http.get('/users/me')
+          .then(function (res) {
+            this.user = res.body;
+          });
+      },
+    }
   }
 </script>
 
@@ -46,13 +68,13 @@
     border-radius: 6px;
   }
 
-  .tweetNowWrap {
+  .beepNowWrap {
     background: #f0f0f0;
     margin: 20px -20px;
     padding: 20px;
   }
 
-  .tweetNowWrap textarea {
+  .beepNowWrap textarea {
     background: transparent;
     border: transparent;
     box-shadow: none;

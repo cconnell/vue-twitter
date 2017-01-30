@@ -1,9 +1,11 @@
 <template>
-  <router-view></router-view>
+  <transition name="scale">
+    <router-view></router-view>
+  </transition>
 </template>
 
 <script>
 
 </script>
 
-<style src="./assets/vtwitter.css"></style>
+<style src="./assets/vue-beeper.css"></style>
