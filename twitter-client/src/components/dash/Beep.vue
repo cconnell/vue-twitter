@@ -44,6 +44,10 @@
     },
     methods: {
       likeBeep: function () {
+        if (!this.$auth.loggedIn()) {
+          alertify.error("Please log in to continue");
+          return;
+        }
         this.$http.patch('/beeps/' + this.beep.id + '/like')
           .then(function (res) {
             if (this.beep.liked) {
