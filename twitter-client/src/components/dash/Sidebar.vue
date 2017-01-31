@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-sm-6">
           <p class="text-center no-margin">
-            <a href="#"><i class="fa fa-cog"></i> Settings</a>
+          <router-link to="/settings"><i class="fa fa-cog"></i> Settings</router-link>
           </p>
         </div>
         <div class="col-sm-6">
