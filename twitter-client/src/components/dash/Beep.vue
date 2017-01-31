@@ -1,14 +1,14 @@
 <template>
   <div class="beep">
     <div class="row">
-      <div class="col-xs-2 text-center">
+      <div class="col-xs-2 text-center" v-show="showUserInfo">
         <router-link :to="'/profile/'+beep.author.username">
             <img :src="beep.author.avatar" class="img-circle no-margin">
         </router-link>
       </div>
       <div class="col-xs-12">
-        <router-link :to="'/profile/'+beep.author.username">@{{beep.author.username}}</router-link>
-        <small class="text-muted">said:<br><br></small>
+        <router-link :to="'/profile/'+beep.author.username" v-show="showUserInfo">@{{beep.author.username}}</router-link>
+        <small class="text-muted" v-show="showUserInfo">said:<br><br></small>
         <p :class="{
             small: beep.text.length >= 150,
             medium: beep.text.length <150 && beep.text.length > 50,
@@ -38,7 +38,10 @@
 
   export default {
     name: 'beep',
-    props: {beep:{}},
+    props: {
+      beep:{},
+      showUserInfo: {type: Boolean, default: true}
+    },
     methods: {
       likeBeep: function () {
         this.$http.patch('/beeps/' + this.beep.id + '/like')

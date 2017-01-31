@@ -1,7 +1,7 @@
 <template>
   <div> 
     <div id="beepsWraper">
-      <beep v-for="beep in beeps" :beep="beep"></beep>
+      <beep v-for="beep in beeps" :beep="beep" :showUserInfo="showUserInfo"></beep>
     </div>
     <div id="beepsLoading" class="text-center" v-show="beepsLoading">
       <i class="fa fa-spin fa-spinner"></i>
@@ -26,6 +26,10 @@
     destroyed: function () {
       window.removeEventListener('scroll', this.handleScroll);
     },
+    props: {
+      endpoint: {type: String, default: "/beeps"},
+      showUserInfo: {type: Boolean, default: true},
+    },
     data: function () {
       return {
         beeps: [],
@@ -33,10 +37,16 @@
         beepsLoading: false
       }
     },
+    watch: {
+      endpoint: function () {
+        this.beeps = [];
+        this.getBeeps();
+      }
+    },
     methods: {
       getBeeps: function (page) {
         this.beepsLoading = true;
-        this.$http.get('/beeps?page=' + page)
+        this.$http.get(this.endpoint + '?page=' + page)
           .then(function (res) {
             this.beeps = this.beeps.concat(res.body.data);
             this.page = {current: res.body.current_page, last: res.body.last_page};
