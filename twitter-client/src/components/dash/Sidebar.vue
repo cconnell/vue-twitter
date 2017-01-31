@@ -15,7 +15,7 @@
       <div class="beepNowWrap m-t-20 m-b-20">
         <textarea class="form-control" rows="10" placeholder="Write your beep here" v-model="newBeep" maxlength="320"></textarea>
         <p class="text-muted">{{ 320 - newBeep.length }} character{{ 320 - newBeep.length == 1 ? '' : 's'}} remaining</p>
-        <p class="text-center no-margin"><button class="btn btn-primary">Beep Now!</button></p>
+        <p class="text-center no-margin"><button class="btn btn-primary" @click="beep">Beep Now!</button></p>
       </div>
 
       <div class="row">
@@ -60,11 +60,19 @@
       }
     },
     methods: {
+      beep: function () {
+        this.$http.post('/beeps', {text: this.newBeep})
+          .then(function (res) {
+            this.$root.$emit('newBeep', res.data);
+            this.newBeep = "";
+            alertify.success("Beep Posted!");
+          })
+      },
       logout: function () {
         this.$auth.destroyToken();
         this.user = {};
         this.$router.push('/auth/login');
-      }
+      },
     }
   }
 </script>
