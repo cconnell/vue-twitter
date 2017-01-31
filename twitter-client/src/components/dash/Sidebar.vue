@@ -47,14 +47,16 @@
   export default {
     name: 'sidebar',
     created: function () {
-      if (this.loggedIn)
-        this.getUser();
     },
     data: function () {
       return {
-        user: {},
         newBeep: "",
         loggedIn: this.$auth.loggedIn()
+      }
+    },
+    computed: {
+      user: function () {
+        return this.$store.state.currentUser
       }
     },
     methods: {
@@ -62,13 +64,7 @@
         this.$auth.destroyToken();
         this.user = {};
         this.$router.push('/auth/login');
-      },
-      getUser:  function () {
-        this.$http.get('/users/me')
-          .then(function (res) {
-            this.user = res.body;
-          });
-      },
+      }
     }
   }
 </script>

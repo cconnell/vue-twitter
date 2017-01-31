@@ -5,6 +5,7 @@ import App from './App'
 import Router from './routes.js';
 import VueResource from 'vue-resource';
 import Auth from './plugins/Auth.js';
+import store from 'src/store.js';
 
 Vue.use(VueResource);
 Vue.use(Auth);
@@ -54,6 +55,7 @@ Router.beforeEach(function (to, from, next) {
 new Vue({
   el: '#app',
   router: Router,
+  store: store,
   template: '<App/>',
   components: { App }
 })
